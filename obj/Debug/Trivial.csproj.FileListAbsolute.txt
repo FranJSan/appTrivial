@@ -1,0 +1,11 @@
+C:\Users\fran_\source\repos\Trivial\bin\Debug\Trivial.exe.config
+C:\Users\fran_\source\repos\Trivial\bin\Debug\Trivial.exe
+C:\Users\fran_\source\repos\Trivial\bin\Debug\Trivial.pdb
+C:\Users\fran_\source\repos\Trivial\obj\Debug\Trivial.FormMain.resources
+C:\Users\fran_\source\repos\Trivial\obj\Debug\Trivial.FrmConf.resources
+C:\Users\fran_\source\repos\Trivial\obj\Debug\Trivial.Properties.Resources.resources
+C:\Users\fran_\source\repos\Trivial\obj\Debug\Trivial.csproj.GenerateResource.cache
+C:\Users\fran_\source\repos\Trivial\obj\Debug\Trivial.csproj.CoreCompileInputs.cache
+C:\Users\fran_\source\repos\Trivial\obj\Debug\Trivial.exe
+C:\Users\fran_\source\repos\Trivial\obj\Debug\Trivial.pdb
+C:\Users\fran_\source\repos\Trivial\obj\Debug\Trivial.csproj.AssemblyReference.cache
