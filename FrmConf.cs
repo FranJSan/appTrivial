@@ -20,6 +20,8 @@ namespace Trivial
     ///         - ¿Cual es la capital de...?
     ///         - ¿De qué país es capital...?
     ///         - ¿En qué continente se encuentra...?
+    ///     3. Permite seleccionar que las respuestas sean del mosmo continente que la pregunta, 
+    ///        con la idea de elevar algo la dificultad.
     /// </summary>
     public partial class FrmConf : Form
     {
@@ -29,12 +31,21 @@ namespace Trivial
             InitializeComponent();
             
         }
+        /// <summary>
+        /// En el load se carga la configuración del usuario para mostrar el Form acorde a esta.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void FrmConf_Load(object sender, EventArgs e)
         {
 
             ConfigCBContinentes();
             CargarConfiguracion();
         }
+
+        /// <summary>
+        /// Este método asigna los controladores a todos los Checkbox
+        /// </summary>
         private void ConfigCBContinentes()
         {
             foreach (CheckBox cb in PnlContinentes.Controls.OfType<CheckBox>())
@@ -51,6 +62,9 @@ namespace Trivial
             }
         }
 
+        /// <summary>
+        /// Este método carga la configuración anteriormente guardada por el usuario.
+        /// </summary>
         private void CargarConfiguracion()
         {
             if (File.Exists("config.dat"))
@@ -85,6 +99,13 @@ namespace Trivial
             }
         }
 
+        /// <summary>
+        /// Controlador del ChangedChecked de los checkbox de los contienente.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// <remarks>Como hay opciones de configuración incompatibles, estos método controlan que CheckBox están habilitados
+        /// y cuales no en los 3 grupos de configuración.</remarks>
         public void ChangedCBContinentes(Object sender, EventArgs e)
         {
             bool check = false;
@@ -104,6 +125,12 @@ namespace Trivial
             }
             else CBContiTPregunta.Enabled = true;
         }
+
+        /// <summary>
+        /// Controlador del evento de ChangedCheked de los CB preguntas
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public void ChangedCBPreguntas(Object sender, EventArgs e)
         {
             int totalCheck = 0;
@@ -130,6 +157,12 @@ namespace Trivial
                 CBMismoCont.Enabled = true;
             }
         }
+
+        /// <summary>
+        /// Controlador del evento de ChangedCheked del CB respuesta
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public void ChangedCBRespuestas(Object sender, EventArgs e)
         {
             if (CBMismoCont.Checked)
@@ -145,6 +178,14 @@ namespace Trivial
                 CBContiTPregunta.Enabled = true;
             }
         }
+
+        /// <summary>
+        /// Controlador del botón guardar. 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// <remarks>Crea una lista para cada tipo de configuración con los parámetros seleccionados del usuario.
+        /// Esas listas se pasan al FrmMain mediante los métodos estáticos que tiene.</remarks>
         private void BtnGuardarConf_Click(object sender, EventArgs e)
         {
             List<string> listContinentes = new List<string>();
@@ -201,6 +242,10 @@ namespace Trivial
             this.Close();
         }
 
+        /// <summary>
+        /// Método que crea el archivo config.dat en caso de que no exista.
+        /// </summary>
+        /// <param name="file"></param>
         private void CrearFile(string file)
         {
             if (!File.Exists("config.dat"))
@@ -210,6 +255,10 @@ namespace Trivial
             }            
         }
 
+        /// <summary>
+        /// Método para escribir la configuración en el archivo config.dat
+        /// </summary>
+        /// <param name="listas"></param>
         private void EscribirConfig(List<List<string>> listas)
         {
             CrearFile("config.dat");

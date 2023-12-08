@@ -105,7 +105,7 @@ namespace Trivial
         }
 
         /// <summary>
-        /// Método static usado desde el FrmConfig para guardar establecer la nueva configuración del usuario.
+        /// Método static usado desde el FrmConfig para establecer la nueva configuración del usuario.
         /// </summary>
         /// <param name="configContinentes">Nueva lista configuración sobre continentes</param>
         public static void ConfigurarContinentes(List<string> configContinentes)
@@ -114,7 +114,7 @@ namespace Trivial
         }
 
         /// <summary>
-        /// Método static usado desde el FrmConfig para guardar establecer la nueva configuración del usuario.
+        /// Método static usado desde el FrmConfig para guardar la nueva configuración del usuario.
         /// </summary>
         /// <param name="configPreguntas">Nueva lista configuración sobre el tipo de preguntas</param>
         public static void ConfigurarPreguntas(List<string> configPreguntas)
@@ -123,7 +123,7 @@ namespace Trivial
         }
 
         /// <summary>
-        /// Método static usado desde el FrmConfig para guardar establecer la nueva configuración del usuario.
+        /// Método static usado desde el FrmConfig para establecer la nueva configuración del usuario.
         /// </summary>
         /// <param name="configRespuestas">Nueva lista configuración sobre el tipo de respuestas</param>
         /// <remarks>Sé que unicamente contiene un parámetro, pero decidi usar una lista por si se me ocurría alguna otra opción.</remarks>
@@ -164,7 +164,7 @@ namespace Trivial
         /// <summary>
         /// Método para cargar los países del archivo. El path del archivo se pasa como argumento del método.
         /// </summary>
-        /// <param name="path"></param>
+        /// <param name="path">Path del archivo</param>
         /// <remarks>Se rompe la línea de entrada en las comas, se crea un nuevo País con los datos de esa entradaç
         /// y se guarda en la lista paises</remarks>
         private void CargarPaises(string path)
@@ -220,7 +220,7 @@ namespace Trivial
 
             string tipoP = null;
             string[] tipoPreguntas = { "Continentes", "Paises", "Capitales" };
-            if (configPreguntas.Count == 0) // Si no se ha seleccionado ningún tipo de pregunta, se selecciona un al azar de entre las 3
+            if (configPreguntas.Count == 0) // Si no se ha establecido ningún tipo de pregunta, se selecciona un al azar de entre las 3
             {
                 tipoP = tipoPreguntas[random.Next(0, tipoPreguntas.Length)];
             } else // Sino, se selecciona una al azar de entre las que estén en la configuración
@@ -348,7 +348,8 @@ namespace Trivial
         /// <param name="listaRespuestas">respuestas incorrectas</param>
         /// <remarks>Posiciona la respuesta correcta en uno de lo Buttons al azar y en el resto las incorrectas.</remarks>
         private void MostrarRespuestas(string respuesta, List<string> listaRespuestas)
-        {
+        {           
+            
             int lblrespuesta = random.Next(1, 5);
             switch (lblrespuesta)
             {
