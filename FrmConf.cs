@@ -15,7 +15,7 @@ namespace Trivial
 {
     /// <summary>
     /// Este Form permite al usuario establecer la configuración de las preguntas:
-    ///     1. Permite establecer sobre el continente en el que versarán las preguntas.
+    ///     1. Permite establecer sobre qué continente versarán las preguntas.
     ///     2. Permite establecer el tipo de pregunta: 
     ///         - ¿Cual es la capital de...?
     ///         - ¿De qué país es capital...?
@@ -167,14 +167,10 @@ namespace Trivial
         {
             if (CBMismoCont.Checked)
             {
-                
-
                 CBContiTPregunta.Enabled = false;
             }
             else
             {
-                
-
                 CBContiTPregunta.Enabled = true;
             }
         }
