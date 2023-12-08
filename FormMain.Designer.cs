@@ -30,10 +30,10 @@ namespace Trivial
         private void InitializeComponent()
         {
             this.PanelRespuestas = new System.Windows.Forms.Panel();
-            this.LblRespuesta1 = new Trivial.RoundedButton();
-            this.LblRespuesta3 = new Trivial.RoundedButton();
-            this.LblRespuesta4 = new Trivial.RoundedButton();
-            this.LblRespuesta2 = new Trivial.RoundedButton();
+            this.BtnRespuesta1 = new Trivial.RoundedButton();
+            this.BtnRespuesta3 = new Trivial.RoundedButton();
+            this.BtnRespuesta4 = new Trivial.RoundedButton();
+            this.BtnRespuesta2 = new Trivial.RoundedButton();
             this.LblPregunta = new Trivial.RoundedButton();
             this.label1 = new System.Windows.Forms.Label();
             this.LblPuntuacion = new System.Windows.Forms.Label();
@@ -44,66 +44,66 @@ namespace Trivial
             // 
             // PanelRespuestas
             // 
-            this.PanelRespuestas.Controls.Add(this.LblRespuesta1);
-            this.PanelRespuestas.Controls.Add(this.LblRespuesta3);
-            this.PanelRespuestas.Controls.Add(this.LblRespuesta4);
-            this.PanelRespuestas.Controls.Add(this.LblRespuesta2);
+            this.PanelRespuestas.Controls.Add(this.BtnRespuesta1);
+            this.PanelRespuestas.Controls.Add(this.BtnRespuesta3);
+            this.PanelRespuestas.Controls.Add(this.BtnRespuesta4);
+            this.PanelRespuestas.Controls.Add(this.BtnRespuesta2);
             this.PanelRespuestas.Location = new System.Drawing.Point(-7, 200);
             this.PanelRespuestas.Name = "PanelRespuestas";
             this.PanelRespuestas.Size = new System.Drawing.Size(700, 213);
             this.PanelRespuestas.TabIndex = 6;
             // 
-            // LblRespuesta1
+            // BtnRespuesta1
             // 
-            this.LblRespuesta1.BorderColor = System.Drawing.Color.Black;
-            this.LblRespuesta1.BorderSize = 3;
-            this.LblRespuesta1.CornerRadius = 25;
-            this.LblRespuesta1.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LblRespuesta1.Location = new System.Drawing.Point(20, 0);
-            this.LblRespuesta1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.LblRespuesta1.Name = "LblRespuesta1";
-            this.LblRespuesta1.Size = new System.Drawing.Size(316, 90);
-            this.LblRespuesta1.TabIndex = 1;
-            this.LblRespuesta1.Tag = "1";
+            this.BtnRespuesta1.BorderColor = System.Drawing.Color.Black;
+            this.BtnRespuesta1.BorderSize = 3;
+            this.BtnRespuesta1.CornerRadius = 25;
+            this.BtnRespuesta1.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnRespuesta1.Location = new System.Drawing.Point(20, 0);
+            this.BtnRespuesta1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.BtnRespuesta1.Name = "BtnRespuesta1";
+            this.BtnRespuesta1.Size = new System.Drawing.Size(316, 90);
+            this.BtnRespuesta1.TabIndex = 1;
+            this.BtnRespuesta1.Tag = "1";
             // 
-            // LblRespuesta3
+            // BtnRespuesta3
             // 
-            this.LblRespuesta3.BorderColor = System.Drawing.Color.Black;
-            this.LblRespuesta3.BorderSize = 3;
-            this.LblRespuesta3.CornerRadius = 25;
-            this.LblRespuesta3.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LblRespuesta3.Location = new System.Drawing.Point(20, 107);
-            this.LblRespuesta3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.LblRespuesta3.Name = "LblRespuesta3";
-            this.LblRespuesta3.Size = new System.Drawing.Size(316, 90);
-            this.LblRespuesta3.TabIndex = 4;
-            this.LblRespuesta3.Tag = "3";
+            this.BtnRespuesta3.BorderColor = System.Drawing.Color.Black;
+            this.BtnRespuesta3.BorderSize = 3;
+            this.BtnRespuesta3.CornerRadius = 25;
+            this.BtnRespuesta3.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnRespuesta3.Location = new System.Drawing.Point(20, 107);
+            this.BtnRespuesta3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.BtnRespuesta3.Name = "BtnRespuesta3";
+            this.BtnRespuesta3.Size = new System.Drawing.Size(316, 90);
+            this.BtnRespuesta3.TabIndex = 4;
+            this.BtnRespuesta3.Tag = "3";
             // 
-            // LblRespuesta4
+            // BtnRespuesta4
             // 
-            this.LblRespuesta4.BorderColor = System.Drawing.Color.Black;
-            this.LblRespuesta4.BorderSize = 3;
-            this.LblRespuesta4.CornerRadius = 25;
-            this.LblRespuesta4.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LblRespuesta4.Location = new System.Drawing.Point(353, 107);
-            this.LblRespuesta4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.LblRespuesta4.Name = "LblRespuesta4";
-            this.LblRespuesta4.Size = new System.Drawing.Size(316, 90);
-            this.LblRespuesta4.TabIndex = 5;
-            this.LblRespuesta4.Tag = "4";
+            this.BtnRespuesta4.BorderColor = System.Drawing.Color.Black;
+            this.BtnRespuesta4.BorderSize = 3;
+            this.BtnRespuesta4.CornerRadius = 25;
+            this.BtnRespuesta4.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnRespuesta4.Location = new System.Drawing.Point(353, 107);
+            this.BtnRespuesta4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.BtnRespuesta4.Name = "BtnRespuesta4";
+            this.BtnRespuesta4.Size = new System.Drawing.Size(316, 90);
+            this.BtnRespuesta4.TabIndex = 5;
+            this.BtnRespuesta4.Tag = "4";
             // 
-            // LblRespuesta2
+            // BtnRespuesta2
             // 
-            this.LblRespuesta2.BorderColor = System.Drawing.Color.Black;
-            this.LblRespuesta2.BorderSize = 3;
-            this.LblRespuesta2.CornerRadius = 25;
-            this.LblRespuesta2.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LblRespuesta2.Location = new System.Drawing.Point(353, 0);
-            this.LblRespuesta2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.LblRespuesta2.Name = "LblRespuesta2";
-            this.LblRespuesta2.Size = new System.Drawing.Size(316, 90);
-            this.LblRespuesta2.TabIndex = 3;
-            this.LblRespuesta2.Tag = "2";
+            this.BtnRespuesta2.BorderColor = System.Drawing.Color.Black;
+            this.BtnRespuesta2.BorderSize = 3;
+            this.BtnRespuesta2.CornerRadius = 25;
+            this.BtnRespuesta2.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnRespuesta2.Location = new System.Drawing.Point(353, 0);
+            this.BtnRespuesta2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.BtnRespuesta2.Name = "BtnRespuesta2";
+            this.BtnRespuesta2.Size = new System.Drawing.Size(316, 90);
+            this.BtnRespuesta2.TabIndex = 3;
+            this.BtnRespuesta2.Tag = "2";
             // 
             // LblPregunta
             // 
@@ -162,7 +162,7 @@ namespace Trivial
             this.BtnConf.UseVisualStyleBackColor = true;
             this.BtnConf.Click += new System.EventHandler(this.BtnConf_Click);
             // 
-            // Form1
+            // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -174,8 +174,9 @@ namespace Trivial
             this.Controls.Add(this.PanelRespuestas);
             this.Controls.Add(this.LblPregunta);
             this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.Name = "Form1";
+            this.Name = "FormMain";
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.FormMain_Load);
             this.PanelRespuestas.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -183,11 +184,11 @@ namespace Trivial
         }
 
         #endregion
-        private RoundedButton LblRespuesta1;
+        private RoundedButton BtnRespuesta1;
         private RoundedButton LblPregunta;
-        private RoundedButton LblRespuesta2;
-        private RoundedButton LblRespuesta3;
-        private RoundedButton LblRespuesta4;
+        private RoundedButton BtnRespuesta2;
+        private RoundedButton BtnRespuesta3;
+        private RoundedButton BtnRespuesta4;
         private System.Windows.Forms.Panel PanelRespuestas;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label LblPuntuacion;

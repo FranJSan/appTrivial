@@ -14,34 +14,74 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Trivial
 {
-    /// todo: eliminar menú de ayuda?
+    /// todo: eliminar menú de ayuda? de momento no sirve para nada.
+    /// solucionar perdida del efecto hover en los botones después del cliclk. El problema tiene que estar en las animaciones.
+    /// bloquear los inputs de Form cuando la animación se esté ejecutando. Aunque se haga click, el Form no debería recoger esa info.
+    /// 
+
+    /// Proyecto de práctica sobre preguntas y repuestar de capitales. 
+    /// Como el proyecto era voluntario y no se iba a entregar lo he hecho un poco por libre. El programa
+    /// genera preguntas sobre capitales, paises y contienentes de manera aleatoria. Cuando se selecciona una
+    /// respuesta, la aplicación realiza una animación para mostrar al usuario si ha acertado o no. En caso de acierto,
+    /// se pasa a una nueva pregunta. 
+    /// Contiene un cuadro informativo sobre la puntiación obtenida y un botón de configuración, donde se podrá configurar el tipo de pregunta, limitar la pregunta a 
+    /// uno o más continentes concretos o hacer que todas las respuestas sean del mismo continente que la pregunta para que la dificultad
+    /// sea algo más elevada. La configuración se escribe en el archivo config.dat para que quede guardada de una sesión a otra.
+    /// 
+    /// Aún hay que arreglar varias cosas: los inputs del form durante la animación, pérdida del hover en los botones después de animar un fallo/acierto, refactorizar... Pero puede
+    /// considerarse funcional. Toda la lógica de generación de preguntas funciona bien junto a la configuración del usuario.
+    /// 
+    /// La información sobre los paises la he cogido de la web: https://proyectoviajero.com/paises-y-capitales-del-mundo-listado-mapas/
+    /// Es una tabla excel, a la cual concatené cada registro separando cada celda con una coma para crear un archivo txt y poder procesarlo
+    /// desde la aplicación. La información de ese listado puede no ser muy exacta.
+    
     public partial class FormMain : Form
     {
+        // Estas 3 listas estáticas se usan para guardar la configuración del usuario.
         public static List<string> configContinentes = new List<string>();
         public static List<string> configPreguntas = new List<string>();
         public static List<string> configRespuestas = new List<string>();
 
+        // Lista donde se almacenarán todos los paises del archivo.
+        private List<Pais> paises = new List<Pais>();
 
-        List<Pais> paises = new List<Pais>();
-        Random random = new Random();
-        private RoundedButton LabelRespuesta;
+        // Uso un random amenudo para generar preguntas y respuestas.
+        private Random random = new Random();
+        
+        // Guardar el Button donde se estable la respuesta correcta.
+        private RoundedButton BtnRespuesta;
+
+        // Puntuación
         private int puntuacion = 0;
+
 
         public FormMain()
         {           
             InitializeComponent();
+            StartPosition = FormStartPosition.CenterScreen;
+        }
+
+        /// <summary>
+        /// En el load se carga todo lo necesario para el funcionamiento del programa: países, configuración, etc
+        /// También se estable los manejadores de evento click de los ButtonsRespuesta
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void FormMain_Load(object sender, EventArgs e)
+        {
             CargarPaises("../../capitales.txt");
             CargarConfiguracion();
             GenerarPregunta();
 
-            StartPosition = FormStartPosition.CenterScreen;
-
-            LblRespuesta1.Click += LblRespuesta_Click;
-            LblRespuesta2.Click += LblRespuesta_Click;
-            LblRespuesta3.Click += LblRespuesta_Click;
-            LblRespuesta4.Click += LblRespuesta_Click;
+            BtnRespuesta1.Click += BtnRespuesta_Click;
+            BtnRespuesta2.Click += BtnRespuesta_Click;
+            BtnRespuesta3.Click += BtnRespuesta_Click;
+            BtnRespuesta4.Click += BtnRespuesta_Click;
         }
 
+        /// <summary>
+        /// Este método carga la configuración, si existe, para que las preguntas y respuestas se ajusten a esta.
+        /// </summary>
         private void CargarConfiguracion()
         {
             
@@ -64,36 +104,54 @@ namespace Trivial
             }
         }
 
+        /// <summary>
+        /// Método static usado desde el FrmConfig para guardar establecer la nueva configuración del usuario.
+        /// </summary>
+        /// <param name="configContinentes">Nueva lista configuración sobre continentes</param>
         public static void ConfigurarContinentes(List<string> configContinentes)
         {
             FormMain.configContinentes = configContinentes;            
         }
+
+        /// <summary>
+        /// Método static usado desde el FrmConfig para guardar establecer la nueva configuración del usuario.
+        /// </summary>
+        /// <param name="configPreguntas">Nueva lista configuración sobre el tipo de preguntas</param>
         public static void ConfigurarPreguntas(List<string> configPreguntas)
         {
             FormMain.configPreguntas = configPreguntas;
         }
+
+        /// <summary>
+        /// Método static usado desde el FrmConfig para guardar establecer la nueva configuración del usuario.
+        /// </summary>
+        /// <param name="configRespuestas">Nueva lista configuración sobre el tipo de respuestas</param>
+        /// <remarks>Sé que unicamente contiene un parámetro, pero decidi usar una lista por si se me ocurría alguna otra opción.</remarks>
         public static void ConfigurarRespuestas(List<string> configRespuestas)
         {
             FormMain.configRespuestas = configRespuestas;
         }
 
-        private void LblRespuesta_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Controlador del evento click sobre los Button respuestas. Los 4 tienen este controlador.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// <remarks>Se comprueba si la respuesta selaccionada es la correcta o no, mostran una animación para cada caso.</remarks>
+        private void BtnRespuesta_Click(object sender, EventArgs e)
         {
             RoundedButton btn = (RoundedButton)sender;
-            if (btn == LabelRespuesta)
+            if (btn == BtnRespuesta)
             {
-                //MessageBox.Show("¡Bien!");
                 btn.AnimacionAcierto.Start();
-                btn.AnimacionAcierto.Join();
+                btn.AnimacionAcierto.Join();                
                 GenerarPregunta();
                 puntuacion += 3;
                 LblPuntuacion.Text = Convert.ToString(puntuacion);
             } else
             {
-                //MessageBox.Show("¡Nooo!");
                 btn.AnimacionFallo.Start();
-                btn.AnimacionFallo.Join();
-                //Thread thread = new Thread(btn.AnimarFallo);
+                btn.AnimacionFallo.Join();             
 
                 if (puntuacion > 0)
                 {
@@ -103,19 +161,12 @@ namespace Trivial
             }
         }
 
-
-       
-                
-
-        private void AnimarRespuesta(Button btn)
-        {
-            Color colorOriginal = btn.BackColor;
-            btn.BackColor = Color.Red;
-            Thread.Sleep(2000);
-            btn.BackColor = colorOriginal;
-
-        }
-
+        /// <summary>
+        /// Método para cargar los países del archivo. El path del archivo se pasa como argumento del método.
+        /// </summary>
+        /// <param name="path"></param>
+        /// <remarks>Se rompe la línea de entrada en las comas, se crea un nuevo País con los datos de esa entradaç
+        /// y se guarda en la lista paises</remarks>
         private void CargarPaises(string path)
         {
             StreamReader sr = new StreamReader(path, Encoding.UTF8);
@@ -142,7 +193,11 @@ namespace Trivial
         //  4 - configRepuestas limita las respuestas al mismo continenete. Por ejemplo, si se pregunta, ¿cual es la capital de España?, las opciones de
         //  respuesta serán países de Europa.
 
-
+        /// <summary>
+        /// Método para generar una pregunta aleatoria y mostrarla en el FrmMain.
+        /// </summary>
+        /// <remarks>Tiene en cuenta la configuración actual del usuario, proporcionando preguntas de acuerdo a esos criterios.
+        /// </remarks>
         private void GenerarPregunta()
         {
             Pais pais = null;
@@ -158,21 +213,25 @@ namespace Trivial
                 } while (!configContinentes.Contains(pais.Continente));
 
             }
-            // Tipo preguntas
+            /// Tipo preguntas -> Esta parte fue la que más vueltas he tenido que darle. Un pais contiene tres tipos de preguntas, y se tiene que seleccionar
+            /// aquella que cumpla los criterios de la configuración, la cual a veces será un solo tipo, dos o los tres, teniendo que estár generando no solo el 
+            /// pais sobre el que se va a preguntar, sino también seleccionar aleatoriamente el tipo de pregunta.
+            /// 
+
             string tipoP = null;
             string[] tipoPreguntas = { "Continentes", "Paises", "Capitales" };
-            if (configPreguntas.Count == 0)
+            if (configPreguntas.Count == 0) // Si no se ha seleccionado ningún tipo de pregunta, se selecciona un al azar de entre las 3
             {
                 tipoP = tipoPreguntas[random.Next(0, tipoPreguntas.Length)];
-            } else
+            } else // Sino, se selecciona una al azar de entre las que estén en la configuración
             {
                 tipoP = configPreguntas.ElementAt(random.Next(0, configPreguntas.Count));
             }
-            switch (tipoP)
+            switch (tipoP) // Una vez decidido el tipo de pregunta, se muestra en pantalla y se ejecuta el método GenerarRespuestas().
             {
                 case "Continentes":
                     if (configPreguntas.Contains("Continentes") && configContinentes.Contains(pais.Continente))
-                    {
+                    { 
                         do
                         {
                             pais = paises.ElementAt(random.Next(0, paises.Count));
@@ -195,53 +254,24 @@ namespace Trivial
             }
         }
 
-        private string SeleccionarRespuesta(string tipo, string respuesta)
-        {
-            if (tipo == null)
-            {
-                string[] tipos = { "Continentes", "Paises", "Capitales" };
-                tipo = tipos[random.Next(0, tipos.Length)];
-            }
-            Pais pais = null;
-            switch (tipo)
-            {
-                case "Continentes":
-                    pais = paises.ElementAt(random.Next(0, paises.Count));
-                    while (respuesta.Equals(pais.Continente))
-                    {
-                        pais = paises.ElementAt(random.Next(0, paises.Count));
-                    }
-
-                    return pais.Continente;
-                    
-                case "Paises":
-                    pais = paises.ElementAt(random.Next(0, paises.Count));
-                    while (respuesta.Equals(pais.Nombre))
-                    {
-                        pais = paises.ElementAt(random.Next(0, paises.Count));
-                    }
-
-                   return pais.Nombre;
-                   
-                case "Capitales":
-                    pais = paises.ElementAt(random.Next(0, paises.Count));
-                    while (respuesta.Equals(pais.Capital))
-                    {
-                        pais = paises.ElementAt(random.Next(0, paises.Count));
-                    }
-
-                    return pais.Capital;
-            }
-
-            return null;
-        }
-
+       
+        /// <summary>
+        /// Método para generar las respuestas incorrectas apropiadas.
+        /// </summary>
+        /// <param name="respuesta">string con la respuesta correcta. Se usa para no volver a mostrarla de manera duplicada.</param>
+        /// <param name="tipo">Tipo de pregunta (capital, país, continente) para mostrar el mismo tipo de respuestas.</param>
+        /// <param name="continente">Cuando está activada en la configuración "Mismo Continente" sobre el tipo de respuesta, era necesario este
+        /// parámetro para poder mostrar ese tipo de respuestas.</param>
+        /// <remarks>Como hay varios tipos de preguntas, las respuestas tenían que ser las apropiadas. Si se pregunta por una capital
+        /// no se puede mostrar como una posible respuesta un pais o un contienente.
+        /// 
+        /// </remarks>
         private void GenerarRespuestas(string respuesta, string tipo, string continente)
         {
-            LblRespuesta1.Text = "";
-            LblRespuesta2.Text = "";
-            LblRespuesta3.Text = "";
-            LblRespuesta4.Text = "";
+            BtnRespuesta1.Text = "";
+            BtnRespuesta2.Text = "";
+            BtnRespuesta3.Text = "";
+            BtnRespuesta4.Text = "";
 
             bool mismoCont = false;
             
@@ -249,14 +279,13 @@ namespace Trivial
             {
                 mismoCont = true;
             }
-            
-            
+
             List<string> listaRespuestas = new List<string>();
 
-            while (listaRespuestas.Count < 3)
+            while (listaRespuestas.Count < 3) // Genero 3 respuestas en total que se meten en una lista.
             {
-                Pais pais = paises.ElementAt(random.Next(0, paises.Count));
-                switch (tipo)
+                Pais pais = paises.ElementAt(random.Next(0, paises.Count)); // Pais respuesta nuevo
+                switch (tipo) // Según el tipo de pregunta, se selecciona una respuesta
                 {
                     case "Continentes":
                         if (!respuesta.Equals(pais.Continente) && !listaRespuestas.Contains(pais.Continente))
@@ -309,88 +338,71 @@ namespace Trivial
                 }
             }
 
+            MostrarRespuestas(respuesta, listaRespuestas);
+        }
 
-            /*
-
-
-            if (configPreguntas.Count == 0 || configPreguntas.Count == 3)
-            {
-                string[] tipos = { "Continentes", "Paises", "Capitales" };
-                string tipo = tipos[random.Next(0, tipos.Length)];
-                for (int i = 0; i < 3; i++)
-                {
-                    listaRespuestas.Add(SeleccionarRespuesta(tipo, respuesta));
-                }
-                
-            } else 
-            {
-                
-                string tipo = configPreguntas.ElementAt(random.Next(0, configPreguntas.Count));
-                for (int i = 0; i < 3; i++)
-                {
-                    listaRespuestas.Add(SeleccionarRespuesta(tipo, respuesta));
-                }
-               
-            }
-
-            */
-
-            // Esto solo coge respuestas tipo capital
-            
-
-            // Mostrar de manera aleatoria las respuestas en los Labels. Para facilitar el algoritmo
-            // de selección, creo un número aleatorio del 1 al 4 que indica el LblRespuesta,
-            // estableciendo ahí la respuesta correcta. El resto de LblRespuesta se rellena con los
-            // datos de la List
-
+        /// <summary>
+        /// Método que muestra las respuestas en el Form.
+        /// </summary>
+        /// <param name="respuesta">respuesta correcta</param>
+        /// <param name="listaRespuestas">respuestas incorrectas</param>
+        /// <remarks>Posiciona la respuesta correcta en uno de lo Buttons al azar y en el resto las incorrectas.</remarks>
+        private void MostrarRespuestas(string respuesta, List<string> listaRespuestas)
+        {
             int lblrespuesta = random.Next(1, 5);
             switch (lblrespuesta)
             {
                 case 1:
-                    LblRespuesta1.Text = respuesta;
+                    BtnRespuesta1.Text = respuesta;
 
-                    LblRespuesta2.Text = listaRespuestas.ElementAt(0);
-                    LblRespuesta3.Text = listaRespuestas.ElementAt(1);
-                    LblRespuesta4.Text = listaRespuestas.ElementAt(2);
+                    BtnRespuesta2.Text = listaRespuestas.ElementAt(0);
+                    BtnRespuesta3.Text = listaRespuestas.ElementAt(1);
+                    BtnRespuesta4.Text = listaRespuestas.ElementAt(2);
 
-                    LabelRespuesta = LblRespuesta1;
+                    BtnRespuesta = BtnRespuesta1;
                     break;
                 case 2:
-                    LblRespuesta2.Text = respuesta;
+                    BtnRespuesta2.Text = respuesta;
 
-                    LblRespuesta1.Text = listaRespuestas.ElementAt(0);
-                    LblRespuesta3.Text = listaRespuestas.ElementAt(1);
-                    LblRespuesta4.Text = listaRespuestas.ElementAt(2);
+                    BtnRespuesta1.Text = listaRespuestas.ElementAt(0);
+                    BtnRespuesta3.Text = listaRespuestas.ElementAt(1);
+                    BtnRespuesta4.Text = listaRespuestas.ElementAt(2);
 
-                    LabelRespuesta = LblRespuesta2;
+                    BtnRespuesta = BtnRespuesta2;
                     break;
                 case 3:
-                    LblRespuesta3.Text = respuesta;
+                    BtnRespuesta3.Text = respuesta;
 
-                    LblRespuesta1.Text = listaRespuestas.ElementAt(0);
-                    LblRespuesta2.Text = listaRespuestas.ElementAt(1);
-                    LblRespuesta4.Text = listaRespuestas.ElementAt(2);
+                    BtnRespuesta1.Text = listaRespuestas.ElementAt(0);
+                    BtnRespuesta2.Text = listaRespuestas.ElementAt(1);
+                    BtnRespuesta4.Text = listaRespuestas.ElementAt(2);
 
-                    LabelRespuesta = LblRespuesta3;
+                    BtnRespuesta = BtnRespuesta3;
                     break;
                 case 4:
-                    LblRespuesta4.Text = respuesta;
+                    BtnRespuesta4.Text = respuesta;
 
-                    LblRespuesta1.Text = listaRespuestas.ElementAt(0);
-                    LblRespuesta2.Text = listaRespuestas.ElementAt(1);
-                    LblRespuesta3.Text = listaRespuestas.ElementAt(2);
+                    BtnRespuesta1.Text = listaRespuestas.ElementAt(0);
+                    BtnRespuesta2.Text = listaRespuestas.ElementAt(1);
+                    BtnRespuesta3.Text = listaRespuestas.ElementAt(2);
 
-                    LabelRespuesta = LblRespuesta4;
+                    BtnRespuesta = BtnRespuesta4;
                     break;
             }
-
         }
 
+        /// <summary>
+        /// Controlador del evento click sobre el botón configuración.
+        /// Abre un nuevo FrmConfig para establecer la configuración.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnConf_Click(object sender, EventArgs e)
         {
             FrmConf form = new FrmConf();
             form.StartPosition = FormStartPosition.CenterParent;
             form.ShowDialog();
+            GenerarPregunta(); // Al cerrar el Form se genera un nueva pregunta con la nueva configuración.
         }
     }
 }

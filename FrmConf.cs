@@ -13,6 +13,14 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Trivial
 {
+    /// <summary>
+    /// Este Form permite al usuario establecer la configuración de las preguntas:
+    ///     1. Permite establecer sobre el continente en el que versarán las preguntas.
+    ///     2. Permite establecer el tipo de pregunta: 
+    ///         - ¿Cual es la capital de...?
+    ///         - ¿De qué país es capital...?
+    ///         - ¿En qué continente se encuentra...?
+    /// </summary>
     public partial class FrmConf : Form
     {
         
@@ -20,10 +28,13 @@ namespace Trivial
         {
             InitializeComponent();
             
+        }
+        private void FrmConf_Load(object sender, EventArgs e)
+        {
+
             ConfigCBContinentes();
             CargarConfiguracion();
         }
-
         private void ConfigCBContinentes()
         {
             foreach (CheckBox cb in PnlContinentes.Controls.OfType<CheckBox>())
@@ -213,6 +224,6 @@ namespace Trivial
            
         }
 
-       
+        
     }
 }

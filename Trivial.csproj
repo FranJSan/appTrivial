@@ -94,8 +94,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="capitales.txt" />
-    <Content Include="conf.ico" />
-    <Content Include="ayuda.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

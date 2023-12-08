@@ -277,6 +277,7 @@ namespace Trivial
             this.Controls.Add(this.PnlContinentes);
             this.Name = "FrmConf";
             this.Text = "Configuración";
+            this.Load += new System.EventHandler(this.FrmConf_Load);
             this.PnlContinentes.ResumeLayout(false);
             this.PnlContinentes.PerformLayout();
             this.PnlResp.ResumeLayout(false);
