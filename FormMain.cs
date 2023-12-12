@@ -15,7 +15,12 @@ using System.Runtime.Serialization.Formatters.Binary;
 namespace Trivial
 {
     /// todo: eliminar menú de ayuda? de momento no sirve para nada.
-    /// solucionar perdida del efecto hover en los botones después del cliclk. El problema tiene que estar en las animaciones.
+    /// solucionar perdida del efecto hover en los botones después del cliclk. El problema tiene que estar en las animaciones. Las animacíones
+    /// la gestiona el RoundedButton, tiene 1 hilo para cada tipo de animación y los métodos para animar en cada caso.
+    /// La perdida del efecto hover se produce por la animación. Si no animo y muestro un mensaje informativo el hover se mantiene.
+    /// ¿Hay alguna forma de lanzar la animación sin necesidad de un hilo? 
+    /// 
+    /// 
     /// bloquear los inputs de Form cuando la animación se esté ejecutando. Aunque se haga click, el Form no debería recoger esa info.
     /// 
 
@@ -28,7 +33,7 @@ namespace Trivial
     /// uno o más continentes concretos o hacer que todas las respuestas sean del mismo continente que la pregunta para que la dificultad
     /// sea algo más elevada. La configuración se escribe en el archivo config.dat para que quede guardada de una sesión a otra.
     /// 
-    /// Aún hay que arreglar varias cosas: los inputs del form durante la animación, pérdida del hover en los botones después de animar un fallo/acierto, refactorizar... Pero puede
+    /// Aún hay que arreglar varias cosas: pérdida del hover en los botones después de animar un fallo/acierto, refactorizar... Pero puede
     /// considerarse funcional. Toda la lógica de generación de preguntas funciona bien junto a la configuración del usuario.
     /// 
     /// La información sobre los paises la he cogido de la web: https://proyectoviajero.com/paises-y-capitales-del-mundo-listado-mapas/
@@ -41,6 +46,7 @@ namespace Trivial
         public static List<string> configContinentes = new List<string>();
         public static List<string> configPreguntas = new List<string>();
         public static List<string> configRespuestas = new List<string>();
+        private static bool animacionEnCurso = false;
 
         // Lista donde se almacenarán todos los paises del archivo.
         private List<Pais> paises = new List<Pais>();
@@ -83,8 +89,7 @@ namespace Trivial
         /// Este método carga la configuración, si existe, para que las preguntas y respuestas se ajusten a esta.
         /// </summary>
         private void CargarConfiguracion()
-        {
-            
+        {            
             if (File.Exists("config.dat"))
             {
                 
@@ -140,18 +145,25 @@ namespace Trivial
         /// <remarks>Se comprueba si la respuesta selaccionada es la correcta o no, mostran una animación para cada caso.</remarks>
         private void BtnRespuesta_Click(object sender, EventArgs e)
         {
+            if (animacionEnCurso) return;
+            
             RoundedButton btn = (RoundedButton)sender;
             if (btn == BtnRespuesta)
             {
+                animacionEnCurso = true; 
                 btn.AnimacionAcierto.Start();
-                btn.AnimacionAcierto.Join();                
-                GenerarPregunta();
+                //btn.AnimacionAcierto.Join(); // Mientras escribía los comentarios sobre el problema, caí en que con un bool ya no me hace falta que espera a terminar 
+                                                // la animación y así si puedo gestionar el evento click según el estado del bool.
+                animacionEnCurso = false;
                 puntuacion += 3;
-                LblPuntuacion.Text = Convert.ToString(puntuacion);
+
+                GenerarPregunta();
+                LblPuntuacion.Text = Convert.ToString(puntuacion);                
             } else
             {
-                btn.AnimacionFallo.Start();
-                btn.AnimacionFallo.Join();             
+                animacionEnCurso = true;
+                btn.AnimacionFallo.Start();                
+                animacionEnCurso = false;                
 
                 if (puntuacion > 0)
                 {
@@ -182,15 +194,15 @@ namespace Trivial
             }
 
             sr.Close();
-
         }
 
+        
         // Proceso de selección de tipo de pregunta:
         //  1 - leer listas de configuración: configContinentes, configPreguntas, configRespuestas
         //  2 - en función a la configuración se deberá actuar de una manera u otra. La configContinentes limita el continente
         //  sobre el que se va a preguntar. Es incompatible con configPreguntas(continentes).
         //  3 - congifPreguntas especifica el tipo de pregunta: sobre la capital, sobre el continente o sobre pais (¿de que país es capital...?
-        //  4 - configRepuestas limita las respuestas al mismo continenete. Por ejemplo, si se pregunta, ¿cual es la capital de España?, las opciones de
+        //  4 - configRepuestas limita las respuestas al mismo continente. Por ejemplo, si se pregunta, ¿cual es la capital de España?, las opciones de
         //  respuesta serán países de Europa.
 
         /// <summary>
@@ -404,6 +416,11 @@ namespace Trivial
             form.StartPosition = FormStartPosition.CenterParent;
             form.ShowDialog();
             GenerarPregunta(); // Al cerrar el Form se genera un nueva pregunta con la nueva configuración.
+        }
+
+        public static void SetAnimation()
+        {
+            animacionEnCurso = !animacionEnCurso;
         }
     }
 }

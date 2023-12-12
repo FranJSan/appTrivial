@@ -28,8 +28,7 @@ namespace Trivial
         
         public FrmConf()
         {
-            InitializeComponent();
-            
+            InitializeComponent();            
         }
         /// <summary>
         /// En el load se carga la configuración del usuario para mostrar el Form acorde a esta.
@@ -38,7 +37,6 @@ namespace Trivial
         /// <param name="e"></param>
         private void FrmConf_Load(object sender, EventArgs e)
         {
-
             ConfigCBContinentes();
             CargarConfiguracion();
         }
@@ -264,11 +262,9 @@ namespace Trivial
                 IFormatter formatter = new BinaryFormatter();
                 formatter.Serialize(stream, listas);
                 stream.Close();
-            }
-            
+            }            
            
         }
-
         
     }
 }

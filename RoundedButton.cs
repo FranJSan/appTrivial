@@ -30,26 +30,28 @@ namespace Trivial
         
         public void AnimarFallo()
         {
+            FormMain.SetAnimation();
             Color colorOriginal = BackColor;
-
             BackColor = Color.Red;
             Thread.Sleep(800);
             BackColor = colorOriginal;
             AnimacionFallo = new Thread(AnimarFallo);
             Invalidate();
+            FormMain.SetAnimation();
 
-            
         }
 
         public void AnimarAcierto()
         {
+            FormMain.SetAnimation();
             Color colorOriginal = BackColor;
             BackColor = Color.Green;
+            
             Thread.Sleep(800);
             BackColor = colorOriginal;
-            AnimacionAcierto = new Thread(AnimarAcierto);
-            
+            AnimacionAcierto = new Thread(AnimarAcierto);            
             Invalidate();
+            FormMain.SetAnimation();
         }
         
 
