@@ -23,6 +23,9 @@ namespace Trivial
     ///     3. Permite seleccionar que las respuestas sean del mosmo continente que la pregunta, 
     ///        con la idea de elevar algo la dificultad.
     /// </summary>
+    /// 
+
+
     public partial class FrmConf : Form
     {
         
@@ -39,6 +42,7 @@ namespace Trivial
         {
             ConfigCBContinentes();
             CargarConfiguracion();
+            ConfigurarToolTips();
         }
 
         /// <summary>
@@ -117,7 +121,7 @@ namespace Trivial
                 else check = false;
             }
 
-            if (check)
+            if (check && PnlPreguntas.Controls.OfType<CheckBox>().Where(cb => cb.Checked == true).ToList().Count() < 1)
             {
                 CBContiTPregunta.Enabled = false;
             }
@@ -163,7 +167,12 @@ namespace Trivial
         /// <param name="e"></param>
         public void ChangedCBRespuestas(Object sender, EventArgs e)
         {
-            if (CBMismoCont.Checked)
+            int totalCheck = 0;
+            foreach (CheckBox cb in PnlPreguntas.Controls.OfType<CheckBox>())
+            {
+                if (cb.Checked) totalCheck++;
+            }
+            if (CBMismoCont.Checked && totalCheck < 1)
             {
                 CBContiTPregunta.Enabled = false;
             }
@@ -265,6 +274,21 @@ namespace Trivial
             }            
            
         }
-        
+
+       
+        /// <summary>
+        /// Método que configura los ToolTips
+        /// </summary>
+        private void ConfigurarToolTips()
+        {
+            string textContinentes = "Puedes filtrar las preguntas por los continentes que selecciones";
+            TTContinentes.SetToolTip(LblAyudaContinentes, textContinentes);
+
+            string textPreguntas = "Puedes elegir el tipo de pregunta";
+            TTPreguntas.SetToolTip(LblAyudaPreguntas, textPreguntas);
+
+            string txtRespuestas = "Al activar esta opción, todas las respuestas serán del mismo continente";
+            TTRespuestas.SetToolTip(LblAyudaRespuestas, txtRespuestas);
+        }
     }
 }

@@ -45,8 +45,7 @@ namespace Trivial
         {
             FormMain.SetAnimation();
             Color colorOriginal = BackColor;
-            BackColor = Color.Green;
-            
+            BackColor = Color.Green;            
             Thread.Sleep(800);
             BackColor = colorOriginal;
             AnimacionAcierto = new Thread(AnimarAcierto);            

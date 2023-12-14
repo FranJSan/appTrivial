@@ -12,40 +12,68 @@ using System.Threading;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 
+/// todo: 
+/// eliminar menú de ayuda? de momento no sirve para nada.
+/// solucionar perdida del efecto hover en los botones después del cliclk. El problema tiene que estar en las animaciones. 
+/// La perdida del efecto hover se produce por la animación. Si no animo y muestro un mensaje informativo el hover se mantiene.
+/// al solucionar el problema de la acumulación de Clicks durante la animación, se produjo otro: la animación de acierto dura lo 
+/// que debería pero instantaneamente se genera una pregunta nueva. Ocurre por que el hilo realmente ya no se detiene.
+/// 
+/// 
+
+
+
+/// ==============================================================================================================================================
+/// =========================================================== NOTAS PARA EL PROFESOR =========================================================== 
+/// ==============================================================================================================================================
+/// 
+/// Hola Javier, te pongo por aquí unas notas:
+/// Como te comenté, como el ejercicio era voluntario, solo cogí la idea y fui desarrollando las funcionalidades que se me ocurrian. 
+/// Lo que más me está costando es el tema de la animación, sobretodo por la perdida del hover pero tampoco es algo que me preocupe mucho, la verdad. 
+/// El resto de funcionalidades implementadas no me han causado mucho problema.
+/// Verás que el programa debería mejorarse, no he repasado el código y seguramente se pueda refactorizar y mejorar mucho.
+/// El tema de las opciones de configuración tambbién debería mejorarse ya que hay veces que no funciona como me gustaría, pero a nivel estético, 
+/// la logica que funciona en la generación de preguntas ha sido correcta en mis pruebas (no sé testing y mucho menos en interfaces gráficas, asique
+/// han sido manuales).
+/// 
+/// Me hubiese gustado meter un Timer y dar la opcion activar una cuenta atrás y bueno más cosas, pero lo dejo para cuando tenga más tiempo además
+/// que sino no te mando nunca el proyecto.
+/// 
+/// 
+/// Un saludo y felices fiestas!
+/// 
+
+
+
+
+/// Proyecto de práctica sobre preguntas y repuestar de capitales. 
+/// El programa genera preguntas sobre capitales, paises y contienentes de manera aleatoria. Cuando se selecciona una
+/// respuesta, la aplicación realiza una animación para mostrar al usuario si ha acertado o no. En caso de acierto,
+/// se pasa a una nueva pregunta. 
+/// Contiene un cuadro informativo sobre la puntiación obtenida y un botón de configuración, donde se podrá configurar el tipo de pregunta, limitar la pregunta a 
+/// uno o más continentes concretos o hacer que todas las respuestas sean del mismo continente que la pregunta para que la dificultad
+/// sea algo más elevada. La configuración se escribe en el archivo config.dat para que quede guardada de una sesión a otra.
+/// 
+/// Aún hay que arreglar varias cosas: pérdida del hover en los botones después de animar un fallo/acierto, refactorizar... Pero puede
+/// considerarse funcional. Toda la lógica de generación de preguntas funciona bien junto a la configuración del usuario.
+/// 
+/// La información sobre los paises la he cogido de la web: https://proyectoviajero.com/paises-y-capitales-del-mundo-listado-mapas/
+/// Es una tabla excel, a la cual concatené cada registro separando cada celda con una coma para crear un archivo txt y poder procesarlo
+/// desde la aplicación. La información de ese listado puede no ser muy exacta. El otro día vi que podría haber trabajado directamente desde
+/// el excel como si fuera un base de datos, pero no caí en su momento.
+
+
 namespace Trivial
 {
-    /// todo: eliminar menú de ayuda? de momento no sirve para nada.
-    /// solucionar perdida del efecto hover en los botones después del cliclk. El problema tiene que estar en las animaciones. Las animacíones
-    /// la gestiona el RoundedButton, tiene 1 hilo para cada tipo de animación y los métodos para animar en cada caso.
-    /// La perdida del efecto hover se produce por la animación. Si no animo y muestro un mensaje informativo el hover se mantiene.
-    /// ¿Hay alguna forma de lanzar la animación sin necesidad de un hilo? 
-    /// 
-    /// 
-    /// bloquear los inputs de Form cuando la animación se esté ejecutando. Aunque se haga click, el Form no debería recoger esa info.
-    /// 
-
-    /// Proyecto de práctica sobre preguntas y repuestar de capitales. 
-    /// Como el proyecto era voluntario y no se iba a entregar lo he hecho un poco por libre. El programa
-    /// genera preguntas sobre capitales, paises y contienentes de manera aleatoria. Cuando se selecciona una
-    /// respuesta, la aplicación realiza una animación para mostrar al usuario si ha acertado o no. En caso de acierto,
-    /// se pasa a una nueva pregunta. 
-    /// Contiene un cuadro informativo sobre la puntiación obtenida y un botón de configuración, donde se podrá configurar el tipo de pregunta, limitar la pregunta a 
-    /// uno o más continentes concretos o hacer que todas las respuestas sean del mismo continente que la pregunta para que la dificultad
-    /// sea algo más elevada. La configuración se escribe en el archivo config.dat para que quede guardada de una sesión a otra.
-    /// 
-    /// Aún hay que arreglar varias cosas: pérdida del hover en los botones después de animar un fallo/acierto, refactorizar... Pero puede
-    /// considerarse funcional. Toda la lógica de generación de preguntas funciona bien junto a la configuración del usuario.
-    /// 
-    /// La información sobre los paises la he cogido de la web: https://proyectoviajero.com/paises-y-capitales-del-mundo-listado-mapas/
-    /// Es una tabla excel, a la cual concatené cada registro separando cada celda con una coma para crear un archivo txt y poder procesarlo
-    /// desde la aplicación. La información de ese listado puede no ser muy exacta.
-    
+   
     public partial class FormMain : Form
     {
         // Estas 3 listas estáticas se usan para guardar la configuración del usuario.
         public static List<string> configContinentes = new List<string>();
         public static List<string> configPreguntas = new List<string>();
         public static List<string> configRespuestas = new List<string>();
+
+        // bool para controlar el estado de la animación de los buttomRespuestas
         private static bool animacionEnCurso = false;
 
         // Lista donde se almacenarán todos los paises del archivo.
@@ -54,7 +82,7 @@ namespace Trivial
         // Uso un random amenudo para generar preguntas y respuestas.
         private Random random = new Random();
         
-        // Guardar el Button donde se estable la respuesta correcta.
+        // Guardo el Button donde se establece la respuesta correcta.
         private RoundedButton BtnRespuesta;
 
         // Puntuación
@@ -87,7 +115,7 @@ namespace Trivial
 
         /// <summary>
         /// Este método carga la configuración, si existe, para que las preguntas y respuestas se ajusten a esta.
-        /// </summary>
+        /// </summary>        
         private void CargarConfiguracion()
         {            
             if (File.Exists("config.dat"))
@@ -227,7 +255,7 @@ namespace Trivial
             }
             /// Tipo preguntas -> Esta parte fue la que más vueltas he tenido que darle. Un pais contiene tres tipos de preguntas, y se tiene que seleccionar
             /// aquella que cumpla los criterios de la configuración, la cual a veces será un solo tipo, dos o los tres, teniendo que estár generando no solo el 
-            /// pais sobre el que se va a preguntar, sino también seleccionar aleatoriamente el tipo de pregunta.
+            /// pais sobre el que se va a preguntar, sino también seleccionar aleatoriamente el tipo de pregunta y proporcionar las respuestar acordes a la pregunta.
             /// 
 
             string tipoP = null;
@@ -241,13 +269,17 @@ namespace Trivial
             }
             switch (tipoP) // Una vez decidido el tipo de pregunta, se muestra en pantalla y se ejecuta el método GenerarRespuestas().
             {
+                /* En la configuración se puede seleccionar que se pregunte sobre Continentes, lo cual inhabilita la opción de limitar por 
+                 * continentes. Pero si además de tipo de pregunta Continentes se selección otro tipo de pregunta, el programa permite al usuario
+                 * limitar las preguntas a los continentes que se seleccione. 
+                 * Por ello en el caso de continentes, , ya que el filtro por continentes se raliza al principio 
+                 * del algoritmo y por lo tanto, si hay filtro, todas las preguntas de tipo continente serás sobre el/los continentes seleccionado.
+                 */
+
                 case "Continentes":
-                    if (configPreguntas.Contains("Continentes") && configContinentes.Contains(pais.Continente))
-                    { 
-                        do
-                        {
-                            pais = paises.ElementAt(random.Next(0, paises.Count));
-                        } while (configContinentes.Contains(pais.Continente));
+                    if (configPreguntas.Contains("Continentes")) 
+                    {
+                        pais = paises.ElementAt(random.Next(0, paises.Count));                        
                     }
                     LblPregunta.Text = pais.preguntaContinente();
                     GenerarRespuestas(pais.Continente, "Continentes", pais.Continente);

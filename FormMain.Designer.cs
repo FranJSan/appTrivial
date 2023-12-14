@@ -37,7 +37,6 @@ namespace Trivial
             this.LblPregunta = new Trivial.RoundedButton();
             this.label1 = new System.Windows.Forms.Label();
             this.LblPuntuacion = new System.Windows.Forms.Label();
-            this.BtnAyuda = new Trivial.RoundedButton();
             this.BtnConf = new Trivial.RoundedButton();
             this.PanelRespuestas.SuspendLayout();
             this.SuspendLayout();
@@ -120,33 +119,22 @@ namespace Trivial
             // label1
             // 
             this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F);
             this.label1.Location = new System.Drawing.Point(10, 21);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(61, 13);
+            this.label1.Size = new System.Drawing.Size(116, 25);
             this.label1.TabIndex = 7;
-            this.label1.Text = "Puntuacion";
+            this.label1.Text = "Puntuacion:";
             // 
             // LblPuntuacion
             // 
             this.LblPuntuacion.AutoSize = true;
-            this.LblPuntuacion.Location = new System.Drawing.Point(77, 21);
+            this.LblPuntuacion.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F);
+            this.LblPuntuacion.Location = new System.Drawing.Point(126, 21);
             this.LblPuntuacion.Name = "LblPuntuacion";
-            this.LblPuntuacion.Size = new System.Drawing.Size(13, 13);
+            this.LblPuntuacion.Size = new System.Drawing.Size(23, 25);
             this.LblPuntuacion.TabIndex = 8;
             this.LblPuntuacion.Text = "0";
-            // 
-            // BtnAyuda
-            // 
-            this.BtnAyuda.BorderColor = System.Drawing.Color.Black;
-            this.BtnAyuda.BorderSize = 3;
-            this.BtnAyuda.CornerRadius = 10;
-            this.BtnAyuda.Font = new System.Drawing.Font("Webdings", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(2)), true);
-            this.BtnAyuda.Location = new System.Drawing.Point(622, 9);
-            this.BtnAyuda.Name = "BtnAyuda";
-            this.BtnAyuda.Size = new System.Drawing.Size(40, 40);
-            this.BtnAyuda.TabIndex = 9;
-            this.BtnAyuda.Text = "s";
-            this.BtnAyuda.UseVisualStyleBackColor = true;
             // 
             // BtnConf
             // 
@@ -154,7 +142,7 @@ namespace Trivial
             this.BtnConf.BorderSize = 3;
             this.BtnConf.CornerRadius = 10;
             this.BtnConf.Font = new System.Drawing.Font("Webdings", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
-            this.BtnConf.Location = new System.Drawing.Point(576, 9);
+            this.BtnConf.Location = new System.Drawing.Point(622, 4);
             this.BtnConf.Name = "BtnConf";
             this.BtnConf.Size = new System.Drawing.Size(40, 40);
             this.BtnConf.TabIndex = 10;
@@ -168,7 +156,6 @@ namespace Trivial
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(684, 407);
             this.Controls.Add(this.BtnConf);
-            this.Controls.Add(this.BtnAyuda);
             this.Controls.Add(this.LblPuntuacion);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.PanelRespuestas);
@@ -192,7 +179,6 @@ namespace Trivial
         private System.Windows.Forms.Panel PanelRespuestas;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label LblPuntuacion;
-        private RoundedButton BtnAyuda;
         private RoundedButton BtnConf;
     }
 }
